@@ -1,5 +1,5 @@
-streamlit
-Pillow
+streamlit==1.22.0
+opencv-python
 numpy
 DeepFace
 python-docx
