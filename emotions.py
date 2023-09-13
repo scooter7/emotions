@@ -1,19 +1,24 @@
 import streamlit as st
-from deepface import DeepFace
+from fer import FER
+import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 import base64
 from docx import Document
 
-st.title("Emotion Analysis using DeepFace")
+st.title("Emotion Analysis using FER")
 
 image_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 
 def analyze_image(image_file):
     image = Image.open(image_file)
     image = np.array(image)
-    predictions = DeepFace.analyze(img_path = "numpy", img_array = image, actions = ['emotion'])
-    st.write("Emotion:", predictions['dominant_emotion'])
+    detector = FER()
+    emotions = detector.detect_emotions(image)
+    if len(emotions) > 0:
+        st.write("Emotion:", emotions[0]["emotions"])
+    else:
+        st.write("No face detected.")
 
 if image_file is not None:
     st.image(image_file, caption="Uploaded Image.", use_column_width=True)
