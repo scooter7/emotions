@@ -1,5 +1,5 @@
 import streamlit as st
-import opencv-python-headless
+import cv2
 import numpy as np
 from deepface import DeepFace
 from docx import Document
