@@ -1,0 +1,7 @@
+streamlit
+deepface
+opencv-python-headless
+python-docx
+numpy
+tensorflow
+flatbuffers
