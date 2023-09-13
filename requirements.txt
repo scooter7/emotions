@@ -3,4 +3,3 @@ opencv-python-headless
 numpy
 DeepFace
 python-docx
-base64
