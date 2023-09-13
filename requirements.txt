@@ -1,5 +1,5 @@
 streamlit
-fer
+opencv-python-headless
 Pillow
 python-docx
 numpy
