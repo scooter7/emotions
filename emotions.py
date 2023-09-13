@@ -5,7 +5,7 @@ from deepface import DeepFace
 from docx import Document
 import base64
 
-st.title("Emotion Analysis using DeepFace")
+st.title("Emotion Analysis")
 image_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 
 def analyze_image(image_file):
@@ -32,7 +32,6 @@ def analyze_image(image_file):
         return
 
     if 'dominant_emotion' not in predictions:
-        st.write("Could not find 'dominant_emotion' in DeepFace.analyze output.")
         st.write("DeepFace.analyze output:", predictions)
         return
 
