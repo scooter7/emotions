@@ -1,17 +1,16 @@
 import streamlit as st
-from PIL import Image
+import cv2
 import numpy as np
 from deepface import DeepFace
 from docx import Document
 import base64
 
 st.title("Emotion Analysis using DeepFace")
-
 image_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 
 def analyze_image(image_file):
-    image = Image.open(image_file)
-    image = np.array(image)
+    image = cv2.imdecode(np.frombuffer(image_file.read(), np.uint8), -1)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     predictions = DeepFace.analyze(image, actions=['emotion'])
     st.write("Emotion:", predictions['dominant_emotion'])
 
@@ -25,7 +24,6 @@ def generate_word_file():
     doc = Document()
     doc.add_heading('Emotion Analysis Report', 0)
     doc.save('report.docx')
-    
     with open('report.docx', 'rb') as f:
         bytes = f.read()
         b64 = base64.b64encode(bytes).decode()
