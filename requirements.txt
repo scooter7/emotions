@@ -1,6 +1,6 @@
 streamlit
 opencv-python-headless
-Pillow
-python-docx
 numpy
-tensorflow
+DeepFace
+python-docx
+base64
