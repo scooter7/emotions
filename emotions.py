@@ -1,5 +1,4 @@
 import streamlit as st
-from fer import FER
 import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
