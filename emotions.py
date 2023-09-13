@@ -27,7 +27,6 @@ def analyze_image(image_file):
     predictions = DeepFace.analyze(image_rgb, actions=['emotion'])
 
     if not isinstance(predictions, dict):
-        st.write("DeepFace.analyze did not return a dictionary as expected.")
         st.write("Returned value:", predictions)
         return
 
