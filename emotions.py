@@ -3,7 +3,6 @@ from fer import FER
 import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
-import base64
 from docx import Document
 
 st.title("Emotion Analysis using FER")
