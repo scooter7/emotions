@@ -1,7 +1,6 @@
 streamlit
-deepface
+fer
 Pillow
 python-docx
 numpy
 tensorflow
-flatbuffers
