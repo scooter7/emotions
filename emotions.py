@@ -12,7 +12,11 @@ def analyze_image(image_file):
     image = cv2.imdecode(np.frombuffer(image_file.read(), np.uint8), -1)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     predictions = DeepFace.analyze(image, actions=['emotion'])
-    st.write("Emotion:", predictions['dominant_emotion'])
+    
+    if isinstance(predictions, dict) and 'dominant_emotion' in predictions:
+        st.write("Emotion:", predictions['dominant_emotion'])
+    else:
+        st.write("Could not determine emotion.")
 
 if image_file is not None:
     st.image(image_file, caption="Uploaded Image.", use_column_width=True)
