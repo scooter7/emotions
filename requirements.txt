@@ -1,6 +1,7 @@
 streamlit
 deepface
 opencv-python-headless
+Pillow
 python-docx
 numpy
 tensorflow
