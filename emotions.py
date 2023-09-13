@@ -3,15 +3,10 @@ import cv2
 import numpy as np
 from deepface import DeepFace
 from docx import Document
-from docx.shared import Inches
 import base64
-import os
 
 st.title("Emotion Analysis using DeepFace")
 image_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
-
-last_analyzed_image = None
-last_dominant_emotion = None
 
 def analyze_image(image_file):
     image_data = np.frombuffer(image_file.read(), np.uint8)
@@ -43,16 +38,15 @@ def analyze_image(image_file):
 
     st.write("Emotion:", predictions['dominant_emotion'])
 
+if image_file is not None:
+    st.image(image_file, caption="Uploaded Image.", use_column_width=True)
+    st.write("")
+    st.write("Classifying...")
+    analyze_image(image_file)
+
 def generate_word_file():
-    global last_analyzed_image, last_dominant_emotion
     doc = Document()
     doc.add_heading('Emotion Analysis Report', 0)
-    if last_analyzed_image is not None and last_dominant_emotion is not None:
-        image_path = 'temp_image.jpg'
-        cv2.imwrite(image_path, cv2.cvtColor(last_analyzed_image, cv2.COLOR_RGB2BGR))
-        doc.add_picture(image_path, width=Inches(2.0))
-        doc.add_paragraph(f'Dominant Emotion: {last_dominant_emotion}')
-        os.remove(image_path)
     doc.save('report.docx')
     with open('report.docx', 'rb') as f:
         bytes = f.read()
