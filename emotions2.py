@@ -13,19 +13,33 @@ image_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 last_analyzed_image = None
 last_analysis = {}
 
-def analyze_image(action):
-    global last_analyzed_image, last_analysis
-    if image_file is not None:
-        image_data = np.frombuffer(image_file.read(), np.uint8)
-        image = cv2.imdecode(image_data, -1)
-        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        predictions = DeepFace.analyze(image_rgb, actions=[action])
-        if isinstance(predictions, dict):
-            last_analysis[action] = predictions.get(action, 'N/A')
-            last_analyzed_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            st.write(f"{action.capitalize()}: ", last_analysis[action])
-        else:
-            st.write(f"Could not determine {action}.")
+def analyze_image(image_file):
+    image_data = np.frombuffer(image_file.read(), np.uint8)
+    if len(image_data) == 0:
+        st.write("Could not read image data.")
+        return
+    
+    image = cv2.imdecode(image_data, -1)
+    if image is None:
+        st.write("Could not decode image.")
+        return
+
+    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    if image_rgb is None:
+        st.write("Could not convert image to RGB.")
+        return
+
+    predictions = DeepFace.analyze(image_rgb, actions=['emotion'])
+
+    if not isinstance(predictions, dict):
+        st.write("Returned value:", predictions)
+        return
+
+    if 'dominant_emotion' not in predictions:
+        st.write("DeepFace.analyze output:", predictions)
+        return
+
+    st.write("Emotion:", predictions['dominant_emotion'])
 
 if image_file is not None:
     st.image(image_file, caption="Uploaded Image.", use_column_width=True)
