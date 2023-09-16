@@ -20,9 +20,12 @@ def analyze_image(action):
         image = cv2.imdecode(image_data, -1)
         image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         predictions = DeepFace.analyze(image_rgb, actions=[action])
-        last_analysis[action] = predictions.get(action, 'N/A')
-        last_analyzed_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        st.write(f"{action.capitalize()}: ", last_analysis[action])
+        if isinstance(predictions, dict):
+            last_analysis[action] = predictions.get(action, 'N/A')
+            last_analyzed_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            st.write(f"{action.capitalize()}: ", last_analysis[action])
+        else:
+            st.write(f"Could not determine {action}.")
 
 if image_file is not None:
     st.image(image_file, caption="Uploaded Image.", use_column_width=True)
